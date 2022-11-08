@@ -17,8 +17,54 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        
+        
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene         = windowScene
+        window?.rootViewController  = createTabbar()
+        window?.makeKeyAndVisible()
+        
     }
+    
+    func createSearchNC() -> UINavigationController {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+        let lunchVC: UIViewController? = storyboard.instantiateViewController(withIdentifier: String(describing: ViewController.self))
+        lunchVC?.tabBarItem = UITabBarItem(title: "lunch", image: UIImage(named: "food")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal), selectedImage: UIImage(named: "food"))
+                
+        return UINavigationController(rootViewController: lunchVC!)
+      }
+      
+      
+      func createFavoritesNC() -> UINavigationController {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+        let internetsVC: UIViewController? = storyboard.instantiateViewController(withIdentifier: String(describing: InternetsViewController.self))
+          
+        internetsVC?.tabBarItem  = UITabBarItem(title: "Internets", image: UIImage(named: "hand")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal), selectedImage: UIImage(named: "hand"))
+        return UINavigationController(rootViewController: internetsVC!)
+        
+      }
+    
+      
+      func createTabbar() -> UITabBarController {
+          let tabbar                      = UITabBarController()
+        UITabBar.appearance().tintColor = .white
+        UITabBar.appearance().barTintColor = UIColor(red: 42.0/255.0, green: 42.0/255.0, blue: 42.0/255.0, alpha: 1.0)
+        
+        let attrsNormal = [NSAttributedString.Key.foregroundColor : UIColor.white,
+                                  NSAttributedString.Key.font : UIFont(name: Strings.Font.rawValue, size: 10)!]
+               UITabBarItem.appearance().setTitleTextAttributes(attrsNormal,
+                                                                for: UIControl.State.normal)
+        tabbar.viewControllers = [createSearchNC(), createFavoritesNC()]
+          
+          return tabbar
+      }
+
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

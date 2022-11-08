@@ -15,7 +15,7 @@ class UserViewModel{
     
     func fetchPhotoDetails(completionhandler:(( _ eventsdata:Base)->Void)?){
                 let request = URLRequest(url: DataSource.url)
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+       // UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         let task = URLSession(configuration: .default).dataTask(with: request) { data, response, error in
             

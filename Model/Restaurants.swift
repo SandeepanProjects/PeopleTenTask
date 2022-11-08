@@ -12,12 +12,17 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-struct Restaurants : Codable {
+import UIKit
+
+public class  Restaurants : Codable {
 	let name : String?
 	let backgroundImageURL : String?
 	let category : String?
 	let contact : Contact?
 	let location : Location?
+
+    var state = PhotoRecordState.new
+    var image = UIImage(named: "Placeholder")
 
 	enum CodingKeys: String, CodingKey {
 
@@ -28,7 +33,7 @@ struct Restaurants : Codable {
 		case location = "location"
 	}
 
-	init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
 		name = try values.decodeIfPresent(String.self, forKey: .name)
 		backgroundImageURL = try values.decodeIfPresent(String.self, forKey: .backgroundImageURL)

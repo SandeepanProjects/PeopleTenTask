@@ -12,6 +12,10 @@ import Foundation
 public enum Strings: String {
 
 case LunchTitle = "Lunch Tyme"
+case Font = "Avenir Next"
+case DetailViewController = "DetailViewController"
+case DetailCell = "DetailCell"
+case HeaderViewForDetails = "HeaderViewForDetails"
 case lunchCell = "lunchCell"
 case sepiaTone = "CISepiaTone"
 case oops = "Oops!"

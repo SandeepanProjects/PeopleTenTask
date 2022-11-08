@@ -10,4 +10,5 @@ import Foundation
 
 public struct DataSource {
     static let url = URL(string:"https://s3.amazonaws.com/br-codingexams/restaurants.json")!
+    static let urlForWebview = URL(string: "https://www.bottlerocketstudios.com")
 }

@@ -40,14 +40,14 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var restrauntMap: MKMapView!
     @IBOutlet weak var tableviewDetails: UITableView!
     
-    var dictFromViewController = Dictionary<String, Any>()
+    var dictFromViewController:Restaurants?// = Dictionary<String, Any>()
     var arrayOfPosts = [Post]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        arrayOfPosts = [Post.init(restrauntNameForDetails:dictFromViewController["name"] as? String, categoryTypeForDetails:dictFromViewController["category"] as? String)]
+        arrayOfPosts = [Post.init(restrauntNameForDetails:dictFromViewController?.name, categoryTypeForDetails:dictFromViewController?.category)]
         
         setUpNavBar()
         SetBackBarButtonCustom()
@@ -62,7 +62,6 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
         setUpCoordinates()
      
     }
@@ -72,32 +71,30 @@ class DetailViewController: UIViewController {
             .barTintColor = UIColor(red: 67.0/255.0, green: 232.0/255.0, blue: 149.0/255.0, alpha: 1.0)
 
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        self.title = Strings.LunchTitle.rawValue
     }
     
     func setUpCoordinates(){
         restrauntMap.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-               let coordinate = CLLocationCoordinate2D(latitude: dictFromViewController["lat"] as! CLLocationDegrees, longitude: dictFromViewController["lng"] as! CLLocationDegrees)
-               let annotation = PlaceAnnotation(coordinate: coordinate, subtitle: dictFromViewController["category"] as? String, title: dictFromViewController["name"] as? String)
+        let coordinate = CLLocationCoordinate2D(latitude: (dictFromViewController?.location?.lat) as! CLLocationDegrees, longitude: dictFromViewController?.location?.lng as! CLLocationDegrees)
+        let annotation = PlaceAnnotation(coordinate: coordinate, subtitle: dictFromViewController?.category, title: dictFromViewController?.name)
                restrauntMap.addAnnotation(annotation)
                restrauntMap.setRegion(annotation.region, animated: true)
     }
     
     func SetBackBarButtonCustom()
     {
-//        self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: "backward")
-//        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "backward")
-//        self.navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(named: "backward"), style: UIBarButtonItem.Style.plain, target: nil, action: nil)
-        
         let image = UIImage(named: "backward")!.withRenderingMode(.alwaysOriginal)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backClicked(_ :) ))
-        }
+    }
     
     @objc func backClicked(_ sender: UIBarButtonItem){
         //self.dismiss(animated: true, completion: nil);
         self.navigationController?.popViewController(animated: true)
 
     }
-   // }
+   
 }
 
 extension DetailViewController:UITableViewDataSource{
@@ -112,11 +109,11 @@ extension DetailViewController:UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
            
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! DetailCell
-        //cell.configureCell(with: news)
-        cell.addressLbl.text = dictFromViewController["address"] as? String
-        cell.formattedPhoneLbl.text = dictFromViewController["formattedPhone"] as? String
-        cell.twitterLbl.text = dictFromViewController["twitter"] as? String
+        let cell = tableView.dequeueReusableCell(withIdentifier: Strings.DetailCell.rawValue, for: indexPath) as! DetailCell
+        
+        cell.addressLbl.text = dictFromViewController?.location?.address
+        cell.formattedPhoneLbl.text = dictFromViewController?.contact?.formattedPhone
+        cell.twitterLbl.text = dictFromViewController?.contact?.twitter
         return cell
     }
     
@@ -131,7 +128,7 @@ extension DetailViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
-        let headerView = Bundle.main.loadNibNamed("HeaderViewForDetails", owner: self, options: nil)?.first as? HeaderViewForDetails
+        let headerView = Bundle.main.loadNibNamed(Strings.HeaderViewForDetails.rawValue, owner: self, options: nil)?.first as? HeaderViewForDetails
         headerView?.categoryType.text = arrayOfPosts[section].categoryTypeForDetails
         headerView?.restrauntName.text = arrayOfPosts[section].restrauntNameForDetails
         return headerView

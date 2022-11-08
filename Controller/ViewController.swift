@@ -17,11 +17,6 @@ class ViewController: UIViewController{
     var arrData:[Restaurants] = []
     var cache:NSCache<AnyObject, AnyObject>!
 
-    
-//    private lazy var photos: Array<Restaurants> = {
-//           return Array<Restaurants>()
-//       }()
-    
     private let pendingOperations = PendingOperations()
 
     override func viewDidLoad() {
@@ -33,7 +28,7 @@ class ViewController: UIViewController{
             self?.arrData = eventsData.restaurants ?? []
             self?.cache = NSCache()
 
-            print(self?.photos)
+           // print(self?.photos)
                    DispatchQueue.main.async {
                     self?.lunchCollectionView.reloadData()
                    }
@@ -60,7 +55,7 @@ class ViewController: UIViewController{
 extension ViewController:UICollectionViewDelegateFlowLayout{
   
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionWidth = self.view.frame.width
+        //let collectionWidth = self.view.frame.width
         return CGSize(width: collectionView.bounds.width, height: 180)
     }
 }
@@ -84,19 +79,10 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 
 extension ViewController:UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var emptyDictionary = Dictionary<String, Any>()
-        emptyDictionary["name"] = arrData[indexPath.item].name
-        emptyDictionary["category"] = arrData[indexPath.item].category
-        emptyDictionary["formattedPhone"] = arrData[indexPath.item].contact?.formattedPhone
-        emptyDictionary["address"] = arrData[indexPath.item].location?.address
-        emptyDictionary["twitter"] = arrData[indexPath.item].contact?.twitter
-        emptyDictionary["lat"] = arrData[indexPath.item].location?.lat
-        emptyDictionary["lng"] = arrData[indexPath.item].location?.lng
         
+        let vc = storyboard?.instantiateViewController(identifier: Strings.DetailViewController.rawValue) as? DetailViewController
         
-        let vc = storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController
-        
-        vc?.dictFromViewController = emptyDictionary
+        vc?.dictFromViewController = arrData[indexPath.item]  //emptyDictionary
         self.navigationController?.pushViewController (vc!, animated: true)
 
         

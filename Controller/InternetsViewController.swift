@@ -16,7 +16,7 @@ class InternetsViewController: UIViewController,WKUIDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        let myURL = URL(string: "https://www.bottlerocketstudios.com")
+        let myURL = DataSource.urlForWebview
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
         webView.uiDelegate = self
@@ -107,37 +107,6 @@ class InternetsViewController: UIViewController,WKUIDelegate {
         webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
-    
-   
-    
+        
 }
 
-//extension ViewController {
-//    func setupUI() {
-//        self.view.backgroundColor = .white
-//        self.view.addSubview(webView)
-//
-//        NSLayoutConstraint.activate([
-//            webView.topAnchor
-//                .constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-//            webView.leftAnchor
-//                .constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
-//            webView.bottomAnchor
-//                .constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-//            webView.rightAnchor
-//                .constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor)
-//        ])
-//    }
-//
-//    func setupNavItem() {
-//        self.navigationItem.leftBarButtonItem = backBarItem
-//        self.navigationItem.rightBarButtonItem = forwardBarItem
-//    }
-//
-//    func setupNavBar() {
-//        self.navigationController?.navigationBar
-//            .barTintColor = .systemBlue
-//        self.navigationController?.navigationBar
-//            .tintColor = .white
-//    }
-//}
